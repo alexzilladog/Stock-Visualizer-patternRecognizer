@@ -38,6 +38,7 @@ namespace Project2
 
         }
 
+        //button functions below
         private void button_fileSelect_Click(object sender, EventArgs e) //if the file select button is clicked, this function will run
         {
             openFileDialog_selector.ShowDialog(); // Show the dialog, save the result (ok or cancel), in dr
@@ -53,6 +54,11 @@ namespace Project2
 
         }
 
+        private void button_refresh_Click(object sender, EventArgs e) //if the refresh button is clicked, this function will run
+        {
+            refreshDisplay(); //call function to refresh the display
+        }
+
         private void hScrollBar_Speed_Scroll(object sender, ScrollEventArgs e) //if the scroll bar is moved, this function will run
         {
             int Speed = Math.Max(1, 1000 - hScrollBar_Speed.Value); //invert speed so higher value is faster
@@ -60,7 +66,20 @@ namespace Project2
         }
         private void textBox_Speed_TextChanged(object sender, EventArgs e) //if the text box is changed, update the speed
         {
-            timer_Simulation.Interval = int.Parse(textBox_Speed.Text); //update the timer interval when the text box is changed
+
+            try
+            {
+                int textBoxValue = int.Parse(textBox_Speed.Text); //get the value from the text box
+                if (textBoxValue > 0) //if the value is greater than 0
+                {  //ensure the value is at least 1
+                    timer_Simulation.Interval = textBoxValue; //update the timer interval when the text box is changed
+                    hScrollBar_Speed.Value = Math.Max(1, 1000 - textBoxValue); //update the scroll bar value when the text box is changed
+                }
+            }
+            catch
+            {
+                return; //if the text box is not a valid integer, do nothing
+            }
         }
 
         private void timer_Simulation_Tick(object sender, EventArgs e) //if the timer ticks, this function will run
@@ -72,14 +91,9 @@ namespace Project2
             if (simulationIndex >= list_FilteredCandlesticks.Count) //if the index is greater than or equal to the number of filtered candlesticks
             {
                 timer_Simulation.Stop(); //stop the timer
+                comboBox_selectPattern.Enabled = true; //enable the pattern selection combo box
             }
         }
-
-        private void button_refresh_Click(object sender, EventArgs e) //if the refresh button is clicked, this function will run
-        {
-            refreshDisplay(); //call function to refresh the display
-        }
-
         private void openFileDialog_selector_fileOK(object sender, CancelEventArgs e) //if a file is selected, this function will run, and call other necessary functions
         {   //https://learn.microsoft.com/en-us/dotnet/api/system.io.path?view=net-9.0
             Text = Path.GetFileName(openFileDialog_selector.FileName); //changes window name to name of selected file without showing entire absolute path
@@ -120,7 +134,7 @@ namespace Project2
             return list_Candlesticks; //return my list of ordered and instantiated aCandlestick objects
         }
 
-        void filterCandlesticksByDate() //void function to call the filter function and save the result to the global variable
+        void filterCandlesticksByDate() //default function to call the filter function if no args are passed
         {
             list_FilteredCandlesticks = filterCandlesticksByDate(list_Candlesticks, dateTimePicker_start.Value, dateTimePicker_end.Value); //filter the list of candlesticks by the dates selected in the date pickers
         }
@@ -129,7 +143,7 @@ namespace Project2
             return listOfCandlesticks.Where(c => c.date >= startDate && c.date <= endDate).ToList(); //LINQ (similar to sql) query to only load candlesticks where date is between start and end date
         }
 
-        void normalizeChart() //void function to call the normalize function
+        void normalizeChart() //defualt function to call the normalize function if no args are passed
         {
             normalizeChart(list_FilteredCandlesticks); //normalize the chart data
         }
@@ -142,7 +156,7 @@ namespace Project2
             chart_OHLCV.ChartAreas[0].AxisY.Maximum = (double)maxPrice * 1.02; //set the maximum value of the y-axis to 102% of the highest price
         }
 
-        void displayStock() //void function to call the display function
+        void displayStock() //default function to call the display function if no args are passed
         {
             displayStock(list_FilteredCandlesticks); //call function to display the stock data in the chart and data grid view
         }

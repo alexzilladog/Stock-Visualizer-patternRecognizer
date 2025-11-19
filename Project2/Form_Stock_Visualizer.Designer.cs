@@ -31,11 +31,11 @@ namespace Project2
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Title title1 = new System.Windows.Forms.DataVisualization.Charting.Title();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea3 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea4 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Series series4 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Title title2 = new System.Windows.Forms.DataVisualization.Charting.Title();
             this.openFileDialog_selector = new System.Windows.Forms.OpenFileDialog();
             this.dateTimePicker_end = new System.Windows.Forms.DateTimePicker();
             this.dateTimePicker_start = new System.Windows.Forms.DateTimePicker();
@@ -95,53 +95,53 @@ namespace Project2
             // 
             // chart_OHLCV
             // 
-            chartArea1.Name = "ChartArea_OHLC";
-            chartArea2.AlignWithChartArea = "ChartArea_OHLC";
-            chartArea2.Name = "ChartArea_Volume";
-            this.chart_OHLCV.ChartAreas.Add(chartArea1);
-            this.chart_OHLCV.ChartAreas.Add(chartArea2);
+            chartArea3.Name = "ChartArea_OHLC";
+            chartArea4.AlignWithChartArea = "ChartArea_OHLC";
+            chartArea4.Name = "ChartArea_Volume";
+            this.chart_OHLCV.ChartAreas.Add(chartArea3);
+            this.chart_OHLCV.ChartAreas.Add(chartArea4);
             this.chart_OHLCV.Location = new System.Drawing.Point(12, 0);
             this.chart_OHLCV.Name = "chart_OHLCV";
             this.chart_OHLCV.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.Excel;
             this.chart_OHLCV.PaletteCustomColors = new System.Drawing.Color[] {
         System.Drawing.Color.Black};
-            series1.ChartArea = "ChartArea_OHLC";
-            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Candlestick;
-            series1.CustomProperties = "PriceDownColor=Red, PriceUpColor=0\\, 192\\, 0";
-            series1.IsXValueIndexed = true;
-            series1.Name = "Series_OHLC";
-            series1.XValueMember = "Date";
-            series1.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Date;
-            series1.YValueMembers = "High,Low,Open,Close";
-            series1.YValuesPerPoint = 4;
-            series1.YValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Double;
-            series2.ChartArea = "ChartArea_Volume";
-            series2.IsXValueIndexed = true;
-            series2.Name = "Series_Volume";
-            series2.XValueMember = "Date";
-            series2.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Date;
-            series2.YValueMembers = "Volume";
-            this.chart_OHLCV.Series.Add(series1);
-            this.chart_OHLCV.Series.Add(series2);
+            series3.ChartArea = "ChartArea_OHLC";
+            series3.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Candlestick;
+            series3.CustomProperties = "PriceDownColor=Red, PriceUpColor=0\\, 192\\, 0";
+            series3.IsXValueIndexed = true;
+            series3.Name = "Series_OHLC";
+            series3.XValueMember = "Date";
+            series3.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Date;
+            series3.YValueMembers = "High,Low,Open,Close";
+            series3.YValuesPerPoint = 4;
+            series3.YValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Double;
+            series4.ChartArea = "ChartArea_Volume";
+            series4.IsXValueIndexed = true;
+            series4.Name = "Series_Volume";
+            series4.XValueMember = "Date";
+            series4.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Date;
+            series4.YValueMembers = "Volume";
+            this.chart_OHLCV.Series.Add(series3);
+            this.chart_OHLCV.Series.Add(series4);
             this.chart_OHLCV.Size = new System.Drawing.Size(1949, 723);
             this.chart_OHLCV.TabIndex = 14;
             this.chart_OHLCV.Text = "chart_OHLCV";
-            title1.Name = "title_Volume";
-            title1.Position.Auto = false;
-            title1.Position.Height = 6.01177F;
-            title1.Position.Width = 94F;
-            title1.Position.X = 3F;
-            title1.Position.Y = 47F;
-            title1.Text = "Volume";
-            title1.Visible = false;
-            this.chart_OHLCV.Titles.Add(title1);
+            title2.Name = "title_Volume";
+            title2.Position.Auto = false;
+            title2.Position.Height = 6.01177F;
+            title2.Position.Width = 94F;
+            title2.Position.X = 3F;
+            title2.Position.Y = 47F;
+            title2.Text = "Volume";
+            title2.Visible = false;
+            this.chart_OHLCV.Titles.Add(title2);
             // 
             // button_fileSelect
             // 
             this.button_fileSelect.BackColor = System.Drawing.SystemColors.Window;
             this.button_fileSelect.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.button_fileSelect.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.button_fileSelect.Location = new System.Drawing.Point(884, 739);
+            this.button_fileSelect.Location = new System.Drawing.Point(789, 740);
             this.button_fileSelect.Name = "button_fileSelect";
             this.button_fileSelect.Size = new System.Drawing.Size(246, 67);
             this.button_fileSelect.TabIndex = 7;
@@ -194,13 +194,14 @@ namespace Project2
             // 
             // comboBox_selectPattern
             // 
+            this.comboBox_selectPattern.Enabled = false;
             this.comboBox_selectPattern.FormattingEnabled = true;
             this.comboBox_selectPattern.Items.AddRange(new object[] {
             "Doji",
             "Marubozu",
             "Hammer",
             "Neutral"});
-            this.comboBox_selectPattern.Location = new System.Drawing.Point(83, 210);
+            this.comboBox_selectPattern.Location = new System.Drawing.Point(1079, 740);
             this.comboBox_selectPattern.Name = "comboBox_selectPattern";
             this.comboBox_selectPattern.Size = new System.Drawing.Size(121, 33);
             this.comboBox_selectPattern.TabIndex = 19;
