@@ -67,7 +67,7 @@
     <Compile Include="Recognizer_EngulfingPattern.cs" />
     <Compile Include="Recognizer_Hammer.cs" />
     <Compile Include="Recognizer_Marubozu.cs" />
-    <Compile Include="Recognizer_Pumpkin.cs" />
+    <Compile Include="Recognizer_Harami.cs" />
     <Compile Include="SmartCandlestick.cs" />
     <EmbeddedResource Include="Form_Startup.resx">
       <DependentUpon>Form_Startup.cs</DependentUpon>

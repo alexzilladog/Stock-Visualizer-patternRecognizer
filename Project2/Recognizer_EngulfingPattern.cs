@@ -6,7 +6,10 @@ using System.Threading.Tasks;
 
 namespace Project2
 {
-    public class Recognizer_EngulfingPattern
+    public class Recognizer_EngulfingPattern : Recognizer
     {
+        public Recognizer_EngulfingPattern() : base("EngulfingPattern", 2)
+        {
+        }
     }
 }

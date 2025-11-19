@@ -6,7 +6,12 @@ using System.Threading.Tasks;
 
 namespace Project2
 {
-    public class Recognizer_Pumpkin
+    public class Recognizer_Harami : Recognizer
     {
+        public Recognizer_Harami() : base("Harami", 2)
+        {
+        }
     }
+    
+  
 }

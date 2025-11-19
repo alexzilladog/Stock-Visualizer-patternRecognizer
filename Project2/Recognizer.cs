@@ -23,10 +23,10 @@ namespace Project2
             this.patternSize = 1;
         }
 
-        public abstract bool recognizer(List<SmartCandlestick> givenCandlesticks);
+        //public abstract bool recognizer(List<SmartCandlestick> givenCandlesticks);
 
-        public abstract bool recognizer();
+        //public abstract bool recognizer();
 
-        public abstract bool recognizer(string patternName, int patternSize);
+        //public abstract bool recognizer(string patternName, int patternSize);
     }
 }

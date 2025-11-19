@@ -6,7 +6,12 @@ using System.Threading.Tasks;
 
 namespace Project2
 {
-    public class Recognizer_Hammer
+    public class Recognizer_Hammer : Recognizer
     {
+        public Recognizer_Hammer() : base("Hammer", 1)
+        {
+        }
     }
+    
+    
 }

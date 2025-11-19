@@ -19,6 +19,8 @@ namespace Project2
         private List<SmartCandlestick> list_Candlesticks = new List<SmartCandlestick>(); //set a "global" variable for a List of candlesticks (necessry for refresh display)
         private List<SmartCandlestick> list_FilteredCandlesticks = new List<SmartCandlestick>(); //set a "global" variable for a List of filtered candlesticks (necessry for refresh display)
         private List<SmartCandlestick> list_SimulatedCandlesticks = new List<SmartCandlestick>(); //set a "global" variable for a List of simulated candlesticks (necessry for timer to work)
+        List<Recognizer> list_Recognizers = new List<Recognizer>(); //list of pattern recognizers
+        
         int simulationIndex = 0; //index for timer simulation
         public Form_Stock_Visualizer()
         {
@@ -36,6 +38,15 @@ namespace Project2
 
             refreshDisplay(); //call refresh display to actually show the data
 
+        }
+
+        void initializeRecognizers()
+        {
+            list_Recognizers.Add(new Recognizer_EngulfingPattern()); //add engulfing recognizer
+            list_Recognizers.Add(new Recognizer_Doji()); //add doji recognizer
+            list_Recognizers.Add(new Recognizer_Hammer()); //add hammer recognizer
+            list_Recognizers.Add(new Recognizer_Marubozu()); //add shooting star recognizer
+            list_Recognizers.Add(new Recognizer_Harami()); //add shooting star recognizer
         }
 
         //button functions below
@@ -91,7 +102,7 @@ namespace Project2
             if (simulationIndex >= list_FilteredCandlesticks.Count) //if the index is greater than or equal to the number of filtered candlesticks
             {
                 timer_Simulation.Stop(); //stop the timer
-                comboBox_selectPattern.Enabled = true; //enable the pattern selection combo box
+                //comboBox_selectPattern.Enabled = true; //enable the pattern selection combo box
             }
         }
         private void openFileDialog_selector_fileOK(object sender, CancelEventArgs e) //if a file is selected, this function will run, and call other necessary functions

@@ -6,7 +6,10 @@ using System.Threading.Tasks;
 
 namespace Project2
 {
-    public class Recognizer_Marubozu
+    public class Recognizer_Marubozu : Recognizer
     {
+        public Recognizer_Marubozu() : base("Marubozu", 1)
+        {
+        }
     }
 }

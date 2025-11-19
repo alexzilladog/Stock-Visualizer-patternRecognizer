@@ -6,7 +6,11 @@ using System.Threading.Tasks;
 
 namespace Project2
 {
-    public class Recognizer_Doji
+    public class Recognizer_Doji : Recognizer
     {
+        public Recognizer_Doji() : base("Doji", 1)
+        {
+
+        }
     }
 }
