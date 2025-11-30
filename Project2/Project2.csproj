@@ -64,7 +64,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Recognizer.cs" />
     <Compile Include="Recognizer_Doji.cs" />
+    <Compile Include="Recognizer_Engulfing.cs" />
     <Compile Include="Recognizer_Hammer.cs" />
+    <Compile Include="Recognizer_Harami.cs" />
     <Compile Include="Recognizer_InvertedHammer.cs" />
     <Compile Include="Recognizer_Marubozu.cs" />
     <Compile Include="SmartCandlestick.cs" />

@@ -14,7 +14,7 @@ namespace Project2
 
         public override bool Recognize(List<SmartCandlestick> givenCandlesticks)
         {
-            if (givenCandlesticks.Count == 1) return false; // ensure exactly one candlestick is passed
+            if (givenCandlesticks.Count != 1) return false; // ensure exactly one candlestick is passed
 
             SmartCandlestick candlestick = givenCandlesticks[0]; // get the single candlestick as candlestick
 

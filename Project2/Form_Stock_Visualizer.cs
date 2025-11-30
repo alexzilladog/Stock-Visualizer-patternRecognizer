@@ -23,6 +23,8 @@ namespace Project2
         private List<SmartCandlestick> list_Hammer = new List<SmartCandlestick>(); //list of hammer candlesticks
         private List<SmartCandlestick> list_InvertedHammer = new List<SmartCandlestick>(); //list of inverted hammer candlesticks
         private List<SmartCandlestick> list_Marubozu = new List<SmartCandlestick>(); //list of marubozu candlesticks
+        private List<SmartCandlestick> list_Engulfing = new List<SmartCandlestick>(); //list of engulfing candlesticks
+        private List<SmartCandlestick> list_Harami = new List<SmartCandlestick>(); //list of harami candlesticks
 
         List<Recognizer> list_Recognizers = new List<Recognizer>(); //list of pattern recognizers
         
@@ -34,7 +36,7 @@ namespace Project2
         public Form_Stock_Visualizer(string tickerFile, DateTime startDate, DateTime endDate) : this() //new form constructor that takes file path, start date, and end date
         {
            
-            Text = Path.GetFileName(tickerFile); //changes window name to name of selected file without showing entire absolute path
+            Text = Path.GetFileName(tickerFile); //changes currentCandlestickname to name of selected file without showing entire absolute path
             
             list_Candlesticks = loadTicker(tickerFile);// load the candlesticks from the passed file
             // set date pickers (guarded by try/catch in case start/end are out of control)
@@ -52,7 +54,18 @@ namespace Project2
             list_Recognizers.Add(new Recognizer_Hammer()); //add hammer recognizer
             list_Recognizers.Add(new Recognizer_InvertedHammer()); //add inverted hammer recognizer
             list_Recognizers.Add(new Recognizer_Marubozu()); //add shooting star recognizer
+            list_Recognizers.Add(new Recognizer_Engulfing()); //add engulfing recognizer
+            list_Recognizers.Add(new Recognizer_Harami()); //add harami recognizer
             
+            //clear previous pattern lists
+            list_Doji.Clear();
+            list_Engulfing.Clear();
+            list_Hammer.Clear();
+            list_InvertedHammer.Clear();
+            list_Marubozu.Clear();
+            list_Harami.Clear();
+
+
         }
 
         //button functions below
@@ -65,13 +78,10 @@ namespace Project2
         {
             refreshDisplay(); //refresh the display to ensure the filtered list is up to date
             list_SimulatedCandlesticks.Clear(); //clear the simulated list
-            list_Doji.Clear(); //clear the doji list
-            list_Hammer.Clear(); //clear the hammer list
-            list_InvertedHammer.Clear(); //clear the inverted hammer list
-            list_Marubozu.Clear(); //clear the marubozu list
+            initializeRecognizers(); //initialize the recognizers
             simulationIndex = 0; //reset the index
             chart_OHLCV.DataSource = list_SimulatedCandlesticks; //bind the simulated list to the chart
-            initializeRecognizers(); //initialize the recognizers
+            
             timer_Simulation.Start(); //start the timer
 
         }
@@ -83,7 +93,7 @@ namespace Project2
 
         private void hScrollBar_Speed_Scroll(object sender, ScrollEventArgs e) //if the scroll bar is moved, this function will run
         {
-            int Speed = Math.Max(1, 1000 - hScrollBar_Speed.Value); //invert speed so higher value is faster
+            int Speed = Math.Max(1, 2000 - hScrollBar_Speed.Value); //invert speed so higher value is faster
             textBox_Speed.Text = Speed.ToString(); //update the speed text box when the scroll bar is moved
         }
         private void textBox_Speed_TextChanged(object sender, EventArgs e) //if the text box is changed, update the speed
@@ -95,7 +105,7 @@ namespace Project2
                 if (textBoxValue > 0) //if the value is greater than 0
                 {  //ensure the value is at least 1
                     timer_Simulation.Interval = textBoxValue; //update the timer interval when the text box is changed
-                    hScrollBar_Speed.Value = Math.Max(1, 1000 - textBoxValue); //update the scroll bar value when the text box is changed
+                    hScrollBar_Speed.Value = Math.Max(1, 2000 - textBoxValue); //update the scroll bar value when the text box is changed
                 }
             }
             catch
@@ -115,24 +125,45 @@ namespace Project2
             simulationIndex++; //increment the index
             for (int s = 0; s < list_Recognizers.Count; s++)
             { //for each recognizer in the list
-                if (list_Recognizers[s].Recognize(new List<SmartCandlestick> { list_FilteredCandlesticks[simulationIndex - 1] }))
-                { //if the recognizer recognizes the pattern in the current candlestick
-                    
-                    if (list_Recognizers[s].patternName == "Doji")
-                    { //if the pattern is a doji
-                        list_Doji.Add(list_FilteredCandlesticks[simulationIndex - 1]); //add the current candlestick to the doji list
-                    }
-                    else if (list_Recognizers[s].patternName == "Hammer")
-                    { //if the pattern is a hammer
-                        list_Hammer.Add(list_FilteredCandlesticks[simulationIndex - 1]); //add the current candlestick to the hammer list
-                    }
-                    else if (list_Recognizers[s].patternName == "Inverted Hammer")
-                    { //if the pattern is an inverted hammer
-                        list_InvertedHammer.Add(list_FilteredCandlesticks[simulationIndex - 1]); //add the current candlestick to the inverted hammer list
-                    }
-                    else if (list_Recognizers[s].patternName == "Marubozu")
-                    { //if the pattern is a marubozu
-                        list_Marubozu.Add(list_FilteredCandlesticks[simulationIndex - 1]); //add the current candlestick to the marubozu list
+                int needed = list_Recognizers[s].patternSize;
+                // only attempt recognition when enough candles are available
+                if (simulationIndex >= needed)
+                {
+                    int start = simulationIndex - needed; //calculate the start index for the current window of candlesticks
+                    List<SmartCandlestick> currentCandlestick= list_FilteredCandlesticks.GetRange(start, needed); //get the current widnow of  (1 or 2) candlesticks as a list
+
+                    if (list_Recognizers[s].Recognize(currentCandlestick)) //
+                    { //if the recognizer recognizes the pattern in the current currentCandlestick
+                        string name = list_Recognizers[s].patternName; //get the name of the pattern
+
+                        if (name == "Doji") //if the pattern is doji
+                        {
+                            list_Doji.Add(currentCandlestick[needed - 1]); //add the current candlestick to the doji list
+                        }
+                        else if (name == "Hammer") //if the pattern is hammer
+                        {
+                            list_Hammer.Add(currentCandlestick[needed - 1]); //add the current candlestick to the hammer list
+                        }
+                        else if (name == "Inverted Hammer") //if the pattern is inverted hammer
+                        {
+                            list_InvertedHammer.Add(currentCandlestick[needed - 1]); //add the current candlestick to the inverted hammer list
+                        }
+                        else if (name == "Marubozu") //if the pattern is marubozu
+                        {
+                            list_Marubozu.Add(currentCandlestick[needed - 1]); //add the current candlestick to the marubozu list
+                        }
+                        else if (name == "Engulfing") //if the pattern is engulfing
+                        {
+                            // add current then previous (preserve previous behavior)
+                            list_Engulfing.Add(currentCandlestick[needed - 1]);
+                            list_Engulfing.Add(currentCandlestick[needed - 2]);
+                        }
+                        else if (name == "Harami")
+                        {
+                            // add current then previous (preserve previous behavior)
+                            list_Harami.Add(currentCandlestick[needed - 1]);
+                            list_Harami.Add(currentCandlestick[needed - 2]);
+                        }
                     }
                 }
             }
@@ -165,10 +196,20 @@ namespace Project2
                 normalizeChart(list_Marubozu); //normalize the chart data
                 displayStock(list_Marubozu); //display the marubozu list
             }
+            else if (comboBox_selectPattern.SelectedItem.ToString() == "Engulfing") //if the selected pattern is engulfing
+            {
+                normalizeChart(list_Engulfing); //normalize the chart data
+                displayStock(list_Engulfing); //display the engulfing list
+            }
+            else if (comboBox_selectPattern.SelectedItem.ToString() == "Harami") //if the selected pattern is harami
+            {
+                normalizeChart(list_Harami); //normalize the chart data
+                displayStock(list_Harami); //display the harami list
+            }
         }
         private void openFileDialog_selector_fileOK(object sender, CancelEventArgs e) //if a file is selected, this function will run, and call other necessary functions
         {   //https://learn.microsoft.com/en-us/dotnet/api/system.io.path?view=net-9.0
-            Text = Path.GetFileName(openFileDialog_selector.FileName); //changes window name to name of selected file without showing entire absolute path
+            Text = Path.GetFileName(openFileDialog_selector.FileName); //changes currentCandlestickname to name of selected file without showing entire absolute path
             loadTicker(); //call function to read the csv file
             refreshDisplay(); //call function to refresh the display
         }
@@ -246,7 +287,7 @@ namespace Project2
             displayStock(list_FilteredCandlesticks); //display the stock data in the chart and data grid view
                                                      //https://learn.microsoft.com/en-us/dotnet/api/system.windows.forms.datavisualization.charting.chart.titles?view=netframework-4.8.1
             chart_OHLCV.Titles.Clear(); //clear any previous titles (in case of using another csv file) NECESSARY TO AVOID MULTIPLE TITLES
-            chart_OHLCV.Titles.Add(Text + " From Dates: " + dateTimePicker_start.Value + " -- " + dateTimePicker_end.Value); //changes window name to name of selected file 
+            chart_OHLCV.Titles.Add(Text + " From Dates: " + dateTimePicker_start.Value + " -- " + dateTimePicker_end.Value); //changes currentCandlestickname to name of selected file 
 
             // https://learn.microsoft.com/en-us/dotnet/api/system.windows.forms.datavisualization.charting.title?view=netframework-4.8.1
             chart_OHLCV.Titles.Add(new Title("Volume", Docking.Bottom)); // Add "Volume" title at the bottom :] ((using the string, docking constructor)) 
