@@ -12,7 +12,7 @@ namespace Project2
         {
         }
 
-        public override bool Recognize(List<SmartCandlestick> givenCandlesticks)
+        public override bool Recognize(List<SmartCandlestick> givenCandlesticks) //override Recognize abstract method
         {
             
             if (givenCandlesticks.Count == 1) //ensure exactly one candlestick is passed
@@ -37,7 +37,7 @@ namespace Project2
                     }
                 }
             }
-            return false;
+            return false; //no harami pattern, do nothing
         }
     }
 }

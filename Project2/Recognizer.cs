@@ -10,7 +10,7 @@ namespace Project2
     {
         public string patternName; //pattern name
         public int patternSize; //pattern size
-        public List<int> patternIndices = new List<int>(); //list of pattern indices
+        //public List<int> patternIndices = new List<int>(); //list of pattern indices (unimplemented)
 
         public Recognizer(string patternName, int patternSize) //constructor with pattern name and size
         {
@@ -19,14 +19,7 @@ namespace Project2
         }
 
         // Implementations must provide recognition logic for a list of candlesticks.
-        public abstract bool Recognize(List<SmartCandlestick> givenCandlesticks);
+        public abstract bool Recognize(List<SmartCandlestick> givenCandlesticks); //override Recognize abstract method, allows subclasses to use their own logic for recognize
 
-        //public abstract bool recognizer(List<SmartCandlestick> givenCandlesticks);
-
-        //public abstract bool recognizer();
-
-        //public abstract bool recognizer(string patternName, int patternSize);
-
-        // (Removed duplicate declaration of patternIndices)
     }
 }

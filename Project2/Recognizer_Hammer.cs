@@ -8,11 +8,11 @@ namespace Project2
 {
     public class Recognizer_Hammer : Recognizer
     {
-        public Recognizer_Hammer() : base("Hammer", 1)
+        public Recognizer_Hammer() : base("Hammer", 1) //constructor with pattern name and size
         {
         }
 
-        public override bool Recognize(List<SmartCandlestick> givenCandlesticks)
+        public override bool Recognize(List<SmartCandlestick> givenCandlesticks) // override Recognize abstract method
         {
             if (givenCandlesticks.Count != 1) return false; // ensure exactly one candlestick is passed
 

@@ -12,7 +12,7 @@ namespace Project2
         {
         }
 
-        public override bool Recognize(List<SmartCandlestick> givenCandlesticks)
+        public override bool Recognize(List<SmartCandlestick> givenCandlesticks) //override Recognize abstract method
         {
             if (givenCandlesticks.Count != 2) return false; // ensure exactly two candlesticks are passed
             SmartCandlestick firstCandle = givenCandlesticks[0]; // first candlestick
@@ -22,7 +22,7 @@ namespace Project2
             {
                 if (secondCandle.open < firstCandle.close && secondCandle.close > firstCandle.open) // second candle engulfs first
                 {
-                    patternIndices.Add(0); // add index 0 to patternIndices if bullish engulfing is found
+                    //patternIndices.Add(; // add index 0 to patternIndices if bullish engulfing is found
                     return true;
                 }
             }

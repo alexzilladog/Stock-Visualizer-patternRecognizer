@@ -12,7 +12,7 @@ namespace Project2
         {
         }
 
-        public override bool Recognize(List<SmartCandlestick> givenCandlesticks)
+        public override bool Recognize(List<SmartCandlestick> givenCandlesticks) //override Recognize abstract method
         {
             if (givenCandlesticks.Count != 1) return false; // ensure exactly one candlestick is passed
 
@@ -22,16 +22,16 @@ namespace Project2
             if (candlestick.range <= 0 || candlestick.bodyRange <= 0) return false;
 
             // ratios and thresholds
-            decimal bodyToRange = candlestick.bodyRange / candlestick.range;               // body relative to total range
+            decimal bodyToRange = candlestick.bodyRange / candlestick.range; // body relative to total range
             decimal upperWickToBody = candlestick.upperWickRange / candlestick.bodyRange; // lower wick relative to body
             const decimal MaxBodyToRange = 0.30m;     // body <= 30% of range
             const decimal MinUpperWickToBody = 2.0m;  // lower wick >= 2x body
             const decimal MaxLowerWickToRange = 0.10m; // upper wick <= 10% of range
 
             // require long lower wick, small body and small upper wick
-            bool longUpperWick = upperWickToBody >= MinUpperWickToBody;
-            bool smallBody = bodyToRange <= MaxBodyToRange;
-            bool smallLowerWick = candlestick.lowerWickRange <= (candlestick.range * MaxLowerWickToRange);
+            bool longUpperWick = upperWickToBody >= MinUpperWickToBody; // long upper wick
+            bool smallBody = bodyToRange <= MaxBodyToRange; // bodytorange  ratio is small
+            bool smallLowerWick = candlestick.lowerWickRange <= (candlestick.range * MaxLowerWickToRange); // small lower wick has lower wick range less than 10% of total range
 
             if (smallBody && longUpperWick && smallLowerWick)
             {
@@ -40,7 +40,7 @@ namespace Project2
                 return true;
             }
 
-            return false;
-        }
+            return false; //if no inverted hammer pattern found do nothing
+        } 
     }
 }

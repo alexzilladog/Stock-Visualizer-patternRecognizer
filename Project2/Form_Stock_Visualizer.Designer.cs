@@ -31,11 +31,11 @@ namespace Project2
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea5 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea6 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Series series5 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Series series6 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Title title3 = new System.Windows.Forms.DataVisualization.Charting.Title();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Title title1 = new System.Windows.Forms.DataVisualization.Charting.Title();
             this.openFileDialog_selector = new System.Windows.Forms.OpenFileDialog();
             this.dateTimePicker_end = new System.Windows.Forms.DateTimePicker();
             this.dateTimePicker_start = new System.Windows.Forms.DateTimePicker();
@@ -66,7 +66,7 @@ namespace Project2
             // 
             // dateTimePicker_end
             // 
-            this.dateTimePicker_end.Location = new System.Drawing.Point(1249, 755);
+            this.dateTimePicker_end.Location = new System.Drawing.Point(1243, 739);
             this.dateTimePicker_end.Name = "dateTimePicker_end";
             this.dateTimePicker_end.Size = new System.Drawing.Size(405, 31);
             this.dateTimePicker_end.TabIndex = 10;
@@ -74,7 +74,7 @@ namespace Project2
             // 
             // dateTimePicker_start
             // 
-            this.dateTimePicker_start.Location = new System.Drawing.Point(369, 755);
+            this.dateTimePicker_start.Location = new System.Drawing.Point(360, 740);
             this.dateTimePicker_start.Name = "dateTimePicker_start";
             this.dateTimePicker_start.Size = new System.Drawing.Size(405, 31);
             this.dateTimePicker_start.TabIndex = 9;
@@ -95,46 +95,46 @@ namespace Project2
             // 
             // chart_OHLCV
             // 
-            chartArea5.Name = "ChartArea_OHLC";
-            chartArea6.AlignWithChartArea = "ChartArea_OHLC";
-            chartArea6.Name = "ChartArea_Volume";
-            this.chart_OHLCV.ChartAreas.Add(chartArea5);
-            this.chart_OHLCV.ChartAreas.Add(chartArea6);
+            chartArea1.Name = "ChartArea_OHLC";
+            chartArea2.AlignWithChartArea = "ChartArea_OHLC";
+            chartArea2.Name = "ChartArea_Volume";
+            this.chart_OHLCV.ChartAreas.Add(chartArea1);
+            this.chart_OHLCV.ChartAreas.Add(chartArea2);
             this.chart_OHLCV.Location = new System.Drawing.Point(12, 0);
             this.chart_OHLCV.Name = "chart_OHLCV";
             this.chart_OHLCV.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.Excel;
             this.chart_OHLCV.PaletteCustomColors = new System.Drawing.Color[] {
         System.Drawing.Color.Black};
-            series5.ChartArea = "ChartArea_OHLC";
-            series5.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Candlestick;
-            series5.CustomProperties = "PriceDownColor=Red, PriceUpColor=0\\, 192\\, 0";
-            series5.IsXValueIndexed = true;
-            series5.Name = "Series_OHLC";
-            series5.XValueMember = "Date";
-            series5.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Date;
-            series5.YValueMembers = "High,Low,Open,Close";
-            series5.YValuesPerPoint = 4;
-            series5.YValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Double;
-            series6.ChartArea = "ChartArea_Volume";
-            series6.IsXValueIndexed = true;
-            series6.Name = "Series_Volume";
-            series6.XValueMember = "Date";
-            series6.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Date;
-            series6.YValueMembers = "Volume";
-            this.chart_OHLCV.Series.Add(series5);
-            this.chart_OHLCV.Series.Add(series6);
+            series1.ChartArea = "ChartArea_OHLC";
+            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Candlestick;
+            series1.CustomProperties = "PriceDownColor=Red, PriceUpColor=0\\, 192\\, 0";
+            series1.IsXValueIndexed = true;
+            series1.Name = "Series_OHLC";
+            series1.XValueMember = "Date";
+            series1.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Date;
+            series1.YValueMembers = "High,Low,Open,Close";
+            series1.YValuesPerPoint = 4;
+            series1.YValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Double;
+            series2.ChartArea = "ChartArea_Volume";
+            series2.IsXValueIndexed = true;
+            series2.Name = "Series_Volume";
+            series2.XValueMember = "Date";
+            series2.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Date;
+            series2.YValueMembers = "Volume";
+            this.chart_OHLCV.Series.Add(series1);
+            this.chart_OHLCV.Series.Add(series2);
             this.chart_OHLCV.Size = new System.Drawing.Size(1949, 723);
             this.chart_OHLCV.TabIndex = 14;
             this.chart_OHLCV.Text = "chart_OHLCV";
-            title3.Name = "title_Volume";
-            title3.Position.Auto = false;
-            title3.Position.Height = 6.01177F;
-            title3.Position.Width = 94F;
-            title3.Position.X = 3F;
-            title3.Position.Y = 47F;
-            title3.Text = "Volume";
-            title3.Visible = false;
-            this.chart_OHLCV.Titles.Add(title3);
+            title1.Name = "title_Volume";
+            title1.Position.Auto = false;
+            title1.Position.Height = 6.01177F;
+            title1.Position.Width = 94F;
+            title1.Position.X = 3F;
+            title1.Position.Y = 47F;
+            title1.Text = "Volume";
+            title1.Visible = false;
+            this.chart_OHLCV.Titles.Add(title1);
             // 
             // button_fileSelect
             // 
@@ -170,14 +170,14 @@ namespace Project2
             this.hScrollBar_Speed.Maximum = 2000;
             this.hScrollBar_Speed.Minimum = 1;
             this.hScrollBar_Speed.Name = "hScrollBar_Speed";
-            this.hScrollBar_Speed.Size = new System.Drawing.Size(692, 41);
+            this.hScrollBar_Speed.Size = new System.Drawing.Size(1328, 41);
             this.hScrollBar_Speed.TabIndex = 16;
             this.hScrollBar_Speed.Value = 1;
             this.hScrollBar_Speed.Scroll += new System.Windows.Forms.ScrollEventHandler(this.hScrollBar_Speed_Scroll);
             // 
             // textBox_Speed
             // 
-            this.textBox_Speed.Location = new System.Drawing.Point(910, 813);
+            this.textBox_Speed.Location = new System.Drawing.Point(1548, 819);
             this.textBox_Speed.Name = "textBox_Speed";
             this.textBox_Speed.Size = new System.Drawing.Size(100, 31);
             this.textBox_Speed.TabIndex = 17;
@@ -203,7 +203,7 @@ namespace Project2
             "Inverted Hammer",
             "Engulfing",
             "Harami"});
-            this.comboBox_selectPattern.Location = new System.Drawing.Point(1079, 740);
+            this.comboBox_selectPattern.Location = new System.Drawing.Point(1078, 740);
             this.comboBox_selectPattern.Name = "comboBox_selectPattern";
             this.comboBox_selectPattern.Size = new System.Drawing.Size(121, 33);
             this.comboBox_selectPattern.TabIndex = 19;
