@@ -200,11 +200,12 @@ namespace Project2
             "Doji",
             "Marubozu",
             "Hammer",
-            "Neutral"});
+            "Inverted Hammer"});
             this.comboBox_selectPattern.Location = new System.Drawing.Point(1079, 740);
             this.comboBox_selectPattern.Name = "comboBox_selectPattern";
             this.comboBox_selectPattern.Size = new System.Drawing.Size(121, 33);
             this.comboBox_selectPattern.TabIndex = 19;
+            this.comboBox_selectPattern.SelectedIndexChanged += new System.EventHandler(this.comboBox_selectPattern_SelectedIndexChanged);
             // 
             // Form_Stock_Visualizer
             // 

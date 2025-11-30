@@ -19,6 +19,11 @@ namespace Project2
         private List<SmartCandlestick> list_Candlesticks = new List<SmartCandlestick>(); //set a "global" variable for a List of candlesticks (necessry for refresh display)
         private List<SmartCandlestick> list_FilteredCandlesticks = new List<SmartCandlestick>(); //set a "global" variable for a List of filtered candlesticks (necessry for refresh display)
         private List<SmartCandlestick> list_SimulatedCandlesticks = new List<SmartCandlestick>(); //set a "global" variable for a List of simulated candlesticks (necessry for timer to work)
+        private List<SmartCandlestick> list_Doji = new List<SmartCandlestick>(); //list of doji candlesticks
+        private List<SmartCandlestick> list_Hammer = new List<SmartCandlestick>(); //list of hammer candlesticks
+        private List<SmartCandlestick> list_InvertedHammer = new List<SmartCandlestick>(); //list of inverted hammer candlesticks
+        private List<SmartCandlestick> list_Marubozu = new List<SmartCandlestick>(); //list of marubozu candlesticks
+
         List<Recognizer> list_Recognizers = new List<Recognizer>(); //list of pattern recognizers
         
         int simulationIndex = 0; //index for timer simulation
@@ -42,11 +47,12 @@ namespace Project2
 
         void initializeRecognizers()
         {
-            list_Recognizers.Add(new Recognizer_EngulfingPattern()); //add engulfing recognizer
+             //add engulfing recognizer
             list_Recognizers.Add(new Recognizer_Doji()); //add doji recognizer
             list_Recognizers.Add(new Recognizer_Hammer()); //add hammer recognizer
+            list_Recognizers.Add(new Recognizer_InvertedHammer()); //add inverted hammer recognizer
             list_Recognizers.Add(new Recognizer_Marubozu()); //add shooting star recognizer
-            list_Recognizers.Add(new Recognizer_Harami()); //add shooting star recognizer
+            
         }
 
         //button functions below
@@ -59,8 +65,13 @@ namespace Project2
         {
             refreshDisplay(); //refresh the display to ensure the filtered list is up to date
             list_SimulatedCandlesticks.Clear(); //clear the simulated list
+            list_Doji.Clear(); //clear the doji list
+            list_Hammer.Clear(); //clear the hammer list
+            list_InvertedHammer.Clear(); //clear the inverted hammer list
+            list_Marubozu.Clear(); //clear the marubozu list
             simulationIndex = 0; //reset the index
             chart_OHLCV.DataSource = list_SimulatedCandlesticks; //bind the simulated list to the chart
+            initializeRecognizers(); //initialize the recognizers
             timer_Simulation.Start(); //start the timer
 
         }
@@ -98,11 +109,61 @@ namespace Project2
             list_SimulatedCandlesticks.Add(list_FilteredCandlesticks[simulationIndex]); //add the next candlestick to the simulated list
             normalizeChart(list_SimulatedCandlesticks); //normalize the chart data
             displayStock(list_SimulatedCandlesticks); //display the simulated list
+            for (int i = 0; i < list_Recognizers.Count; i++) {
+                //list_Recognizers[i].recognize(list_SimulatedCandlesticks[simulationIndex]);
+            }
             simulationIndex++; //increment the index
+            for (int s = 0; s < list_Recognizers.Count; s++)
+            { //for each recognizer in the list
+                if (list_Recognizers[s].Recognize(new List<SmartCandlestick> { list_FilteredCandlesticks[simulationIndex - 1] }))
+                { //if the recognizer recognizes the pattern in the current candlestick
+                    
+                    if (list_Recognizers[s].patternName == "Doji")
+                    { //if the pattern is a doji
+                        list_Doji.Add(list_FilteredCandlesticks[simulationIndex - 1]); //add the current candlestick to the doji list
+                    }
+                    else if (list_Recognizers[s].patternName == "Hammer")
+                    { //if the pattern is a hammer
+                        list_Hammer.Add(list_FilteredCandlesticks[simulationIndex - 1]); //add the current candlestick to the hammer list
+                    }
+                    else if (list_Recognizers[s].patternName == "Inverted Hammer")
+                    { //if the pattern is an inverted hammer
+                        list_InvertedHammer.Add(list_FilteredCandlesticks[simulationIndex - 1]); //add the current candlestick to the inverted hammer list
+                    }
+                    else if (list_Recognizers[s].patternName == "Marubozu")
+                    { //if the pattern is a marubozu
+                        list_Marubozu.Add(list_FilteredCandlesticks[simulationIndex - 1]); //add the current candlestick to the marubozu list
+                    }
+                }
+            }
             if (simulationIndex >= list_FilteredCandlesticks.Count) //if the index is greater than or equal to the number of filtered candlesticks
             {
                 timer_Simulation.Stop(); //stop the timer
-                //comboBox_selectPattern.Enabled = true; //enable the pattern selection combo box
+                comboBox_selectPattern.Enabled = true; //enable the pattern selection combo box
+            }
+        }
+
+        private void comboBox_selectPattern_SelectedIndexChanged(object sender, EventArgs e) //if the selected pattern is changed, this function will run
+        {
+            if (comboBox_selectPattern.SelectedItem.ToString() == "Doji") //if the selected pattern is doji
+            {
+                normalizeChart(list_Doji); //normalize the chart data
+                displayStock(list_Doji); //display the doji list
+            }
+            else if (comboBox_selectPattern.SelectedItem.ToString() == "Hammer") //if the selected pattern is hammer
+            {
+                normalizeChart(list_Hammer); //normalize the chart data
+                displayStock(list_Hammer); //display the hammer list
+            }
+            else if (comboBox_selectPattern.SelectedItem.ToString() == "Inverted Hammer") //if the selected pattern is inverted hammer
+            {
+                normalizeChart(list_InvertedHammer); //normalize the chart data
+                displayStock(list_InvertedHammer); //display the inverted hammer list
+            }
+            else if (comboBox_selectPattern.SelectedItem.ToString() == "Marubozu") //if the selected pattern is marubozu
+            {
+                normalizeChart(list_Marubozu); //normalize the chart data
+                displayStock(list_Marubozu); //display the marubozu list
             }
         }
         private void openFileDialog_selector_fileOK(object sender, CancelEventArgs e) //if a file is selected, this function will run, and call other necessary functions
@@ -151,7 +212,7 @@ namespace Project2
         }
         List<SmartCandlestick> filterCandlesticksByDate(List<SmartCandlestick> listOfCandlesticks, DateTime startDate, DateTime endDate) //function to filter the list of candlesticks by date
         {
-            return listOfCandlesticks.Where(c => c.date >= startDate && c.date <= endDate).ToList(); //LINQ (similar to sql) query to only load candlesticks where date is between start and end date
+            return listOfCandlesticks.Where(candlestick => candlestick.date >= startDate && candlestick.date <= endDate).ToList(); //LINQ (similar to sql) query to only load candlesticks where date is between start and end date
         }
 
         void normalizeChart() //defualt function to call the normalize function if no args are passed
@@ -161,8 +222,8 @@ namespace Project2
         void normalizeChart(List<SmartCandlestick> list_Candlesticks) //function to use the y axis chart to its full potential
         {
             if (list_Candlesticks.Count == 0) return; //if the list is empty, return
-            decimal minPrice = list_Candlesticks.Min(c => c.low); //find the lowest price in the list of candlesticks
-            decimal maxPrice = list_Candlesticks.Max(c => c.high); //find the highest price in the list of candlesticks
+            decimal minPrice = list_Candlesticks.Min(candlestick => candlestick.low); //find the lowest price in the list of candlesticks
+            decimal maxPrice = list_Candlesticks.Max(candlestick => candlestick.high); //find the highest price in the list of candlesticks
             chart_OHLCV.ChartAreas[0].AxisY.Minimum = (double)minPrice * 0.98; //set the minimum value of the y-axis to 98% of the lowest price
             chart_OHLCV.ChartAreas[0].AxisY.Maximum = (double)maxPrice * 1.02; //set the maximum value of the y-axis to 102% of the highest price
         }
@@ -191,5 +252,7 @@ namespace Project2
             chart_OHLCV.Titles.Add(new Title("Volume", Docking.Bottom)); // Add "Volume" title at the bottom :] ((using the string, docking constructor)) 
             this.TopMost = true; //bring the form to the front after refresh
         }
+
+        
     }
 }
